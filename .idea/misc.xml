@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/services/rating-service/pom.xml" />
         <option value="$PROJECT_DIR$/services/service-registery/pom.xml" />
         <option value="$PROJECT_DIR$/services/api-gateway-serivce/pom.xml" />
+        <option value="$PROJECT_DIR$/services/config-server/pom.xml" />
       </list>
     </option>
   </component>
