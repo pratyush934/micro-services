@@ -3,9 +3,12 @@ package com.userservice.userservice.controller;
 import com.userservice.userservice.entity.User;
 import com.userservice.userservice.repository.UserRepository;
 import com.userservice.userservice.services.UserService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -41,9 +46,20 @@ public class UserController {
 
     //getById
     @GetMapping("/{userId}")
+    @CircuitBreaker(name = "RATING_HOTEL_BREAKER" , fallbackMethod = "ratingHotelFallBack")
     public ResponseEntity<User> getUserById(@PathVariable String userId) {
         User userById = userService.getUserById(userId);
         return new ResponseEntity<User>(userById, HttpStatus.OK);
+    }
+
+    public ResponseEntity<User> ratingHotelFallBack(String userId, Exception ex) {
+        logger.info("FallBack is executed because service is down : ", ex.getMessage());
+        User dummy = User.builder()
+                .email("dummy@gmail.com")
+                .name("Dummy")
+                .about("This is about failed response that took place")
+                .build();
+        return new ResponseEntity<User>(dummy, HttpStatus.OK);
     }
     //getByAll
     @GetMapping
