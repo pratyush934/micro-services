@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/services/api-gateway-serivce/api-gateway-serivce.iml" filepath="$PROJECT_DIR$/services/api-gateway-serivce/api-gateway-serivce.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/config-server/config-server.iml" filepath="$PROJECT_DIR$/services/config-server/config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/hotel-service/hotel-service.iml" filepath="$PROJECT_DIR$/services/hotel-service/hotel-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/microservices.iml" filepath="$PROJECT_DIR$/.idea/microservices.iml" />
       <module fileurl="file://$PROJECT_DIR$/services/rating-service/rating-service.iml" filepath="$PROJECT_DIR$/services/rating-service/rating-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/service-registery/service-registery.iml" filepath="$PROJECT_DIR$/services/service-registery/service-registery.iml" />
     </modules>
   </component>
 </project>
