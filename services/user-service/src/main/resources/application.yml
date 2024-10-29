@@ -67,3 +67,17 @@ resilience4j:
         sliding-window-size: 10
         sliding-window-type: count_based
 
+  retry:
+    instances:
+      RATING_HOTEL_BREAKER:
+        max-attempts: 3
+        wait-duration:
+          seconds: 5
+  ratelimiter:
+    instances:
+      RATE_LIMITER:
+        limit-refresh-period:
+          seconds: 4
+        limit-for-period: 2
+        timeout-duration:
+          seconds: 0

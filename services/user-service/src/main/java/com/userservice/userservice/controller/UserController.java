@@ -4,6 +4,8 @@ import com.userservice.userservice.entity.User;
 import com.userservice.userservice.repository.UserRepository;
 import com.userservice.userservice.services.UserService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -45,12 +47,18 @@ public class UserController {
     }
 
     //getById
+    int retryCount = 1;
     @GetMapping("/{userId}")
+    @RateLimiter(name = "RATE_LIMITER", fallbackMethod = "ratingHotelFallBack")
     @CircuitBreaker(name = "RATING_HOTEL_BREAKER" , fallbackMethod = "ratingHotelFallBack")
+    @Retry(name = "RATING_HOTEL_BREAKER", fallbackMethod = "ratingHotelFallBack")
     public ResponseEntity<User> getUserById(@PathVariable String userId) {
+        logger.info("Retry count {}", retryCount);
+        retryCount++;
         User userById = userService.getUserById(userId);
         return new ResponseEntity<User>(userById, HttpStatus.OK);
     }
+
 
     public ResponseEntity<User> ratingHotelFallBack(String userId, Exception ex) {
         logger.info("FallBack is executed because service is down : ", ex.getMessage());
